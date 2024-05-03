@@ -3,6 +3,7 @@ package utils
 import (
 	"context"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/pkg/errors"
 	"love-recycling-go/global"
 	"time"
 )
@@ -76,4 +77,18 @@ func (jwtService *jwtService) IsInBlacklist(tokenStr string) bool {
 	}
 
 	return true
+}
+
+func (jwtService *jwtService) GetUserInfo(GuardName string, id string) (err error, user JwtUser) {
+	err = global.App.DB.Where("user_id = ?", id).First(&user).Error
+	if err != nil {
+	}
+
+	switch GuardName {
+	case AppGuardName:
+		return nil, user
+	default:
+		err = errors.New("guard " + GuardName + " does not exist")
+	}
+	return
 }

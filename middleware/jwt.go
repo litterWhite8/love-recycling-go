@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"love-recycling-go/global"
 	"love-recycling-go/utils"
+	"strconv"
+	"time"
 )
 
 func JWTAuth(GuardName string) gin.HandlerFunc {
@@ -32,6 +34,15 @@ func JWTAuth(GuardName string) gin.HandlerFunc {
 			utils.TokenFail(c)
 			c.Abort()
 			return
+		}
+
+		//token续签
+		if claims.ExpiresAt-time.Now().Unix() < global.App.Config.App.Token.RefreshGracePeriod {
+			_, user := utils.JwtService.GetUserInfo(GuardName, claims.Id)
+			tokenData, _, _ := utils.JwtService.CreateToken(GuardName, user)
+			c.Header("new-token", tokenData.AccessToken)
+			c.Header("new-expires-in", strconv.Itoa(tokenData.ExpiresIn))
+			_ = utils.JwtService.JoinBlackList(tokenStr)
 		}
 
 		c.Set("token", token)

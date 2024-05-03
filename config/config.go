@@ -14,9 +14,9 @@ type App struct {
 }
 
 type Token struct {
-	Expiration              int64  `mapstructure:"expiration" json:"expiration" yaml:"expiration"`
-	Secret                  string `mapstructure:"secret" json:"secret" yaml:"secret"`
-	JwtBlacklistGracePeriod int64  `mapstructure:"jwt_blacklist_grace_period" json:"jwt_blacklist_grace_period" yaml:"jwt_blacklist_grace_period"` // 黑名单宽限时间（秒）
+	Expiration         int64  `mapstructure:"expiration" json:"expiration" yaml:"expiration"`
+	Secret             string `mapstructure:"secret" json:"secret" yaml:"secret"`
+	RefreshGracePeriod int64  `mapstructure:"refresh_grace_period" json:"refresh_grace_period" yaml:"refresh_grace_period"` // token 自动刷新宽限时间（秒）
 
 }
 

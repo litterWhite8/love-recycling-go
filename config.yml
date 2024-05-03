@@ -5,6 +5,7 @@ app:
     expiration: 1440 # token可用时间
     secret: asoufonaosuhfdlkzjxnmojapwkrsjhdvbfkhabsigdinbkjzbfijasdadas
     jwt_blacklist_grace_period: 10 # 黑名单宽限时间
+    refresh_grace_period: 1800 #  token 自动刷新宽限时间（秒）
 database:
   host: 127.0.0.1 # 数据库ip
   port: 3306 # 数据库端口
